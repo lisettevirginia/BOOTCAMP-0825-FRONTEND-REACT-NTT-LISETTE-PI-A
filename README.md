@@ -67,3 +67,15 @@ export default tseslint.config([
   },
 ])
 ```
+
+### 📁 Arquitectura de Carpetas
+src/
+├── components/ # Componentes reutilizables
+│ └── common/ # Button, Input, etc.
+├── pages/ # Páginas (Login, Home, Cart)
+├── types/ # Interfaces TypeScript
+├── utils/ # Funciones helpers
+├── tests/ # Tests unitarios
+├── context/ # Estado global (Context API)
+├── services/ # Llamadas a APIs
+└── hooks/ # Custom hooks
