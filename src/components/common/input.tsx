@@ -1,62 +1,32 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import './Input.css';
 
-interface InputProps {
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
-  type?: string;
-  value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  placeholder?: string;
   error?: string;
-  required?: boolean;
-  // Nuevas props para react-hook-form
-  register?: any;
-  name?: string;
 }
 
-const Input: React.FC<InputProps> = ({
-  label,
-  type = 'text',
-  value,
-  onChange,
-  placeholder,
-  error,
-  required = false,
-  register,
-  name,
-  ...props
-}) => {
-  return (
-    <div className="input-container">
-      <label className="input-label">
-        {label}
-        {required && <span className="required">*</span>}
-      </label>
-      
-      {register && name ? (
-        // Para react-hook-form
+const Input = forwardRef<HTMLInputElement, InputProps>(
+  ({ label, error, required, className, ...props }, ref) => {
+    return (
+      <div className="input-container">
+        <label className="input-label">
+          {label}
+          {required && <span className="required-asterisk">*</span>}
+        </label>
+        
         <input
-          type={type}
-          placeholder={placeholder}
-          className={`input-field ${error ? 'input-error' : ''}`}
-          {...register(name)}
+          ref={ref}
+          className={`input-field ${error ? 'input-error' : ''} ${className || ''}`}
           {...props}
         />
-      ) : (
-        // Para uso normal
-        <input
-          type={type}
-          value={value}
-          onChange={onChange}
-          placeholder={placeholder}
-          className={`input-field ${error ? 'input-error' : ''}`}
-          {...props}
-        />
-      )}
-      
-      {error && <span className="error-message">{error}</span>}
-    </div>
-  );
-};
+        
+        {error && <span className="error-message">{error}</span>}
+      </div>
+    );
+  }
+);
+
+Input.displayName = 'Input';
 
 export default Input;

@@ -1,9 +1,11 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { User, LoginFormData } from '../types';
+/* eslint-disable react-refresh/only-export-components */
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import type { ReactNode } from 'react';
+import { type User } from '../types';
 
 interface AuthContextType {
   user: User | null;
-  login: (credentials: LoginFormData) => Promise<void>;
+  login: (userData: User) => Promise<void>; // ← Cambiado aquí
   logout: () => void;
   isLoading: boolean;
 }
@@ -23,25 +25,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setIsLoading(false);
   }, []);
 
-  const login = async (credentials: LoginFormData) => {
-    try {
-      const response = await fetch('https://dummyjson.com/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(credentials),
-      });
-
-      if (!response.ok) {
-        throw new Error('Credenciales inválidas');
-      }
-
-      const userData = await response.json();
-      setUser(userData);
-      localStorage.setItem('user', JSON.stringify(userData));
-    } catch (error) {
-      throw error;
-    }
-  };
+  const login = async (userData: User) => {
+    console.log('🔄 Guardando usuario en contexto:', userData);
+    setUser(userData);
+    localStorage.setItem('user', JSON.stringify(userData));
+};
 
   const logout = () => {
     setUser(null);
@@ -49,10 +37,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, isLoading }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  <AuthContext.Provider value={{ user, login, logout, isLoading }}>
+    {children}
+  </AuthContext.Provider>
+);
 };
 
 export const useAuth = () => {
