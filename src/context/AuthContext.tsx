@@ -26,7 +26,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }, []);
 
   const login = async (userData: User) => {
-    console.log('🔄 Guardando usuario en contexto:', userData);
     setUser(userData);
     localStorage.setItem('user', JSON.stringify(userData));
 };
