@@ -2,19 +2,20 @@
 
 .product-card {
   border: 1px solid var(--neutral-color);
-  border-radius: 16px;
+  border-radius: 12px;
   overflow: hidden;
   transition: all var(--transition-normal);
   background: var(--background-light);
   box-shadow: var(--shadow-sm);
-  height: 100%;
+  height: 100%; /* Cambiado a altura flexible */
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .product-image-container {
   width: 100%;
-  height: 250px;
+  height: 200px; /* Ajustado */
   overflow: hidden;
   position: relative;
 }
@@ -27,29 +28,48 @@
 }
 
 .product-card:hover .product-image {
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 .product-info {
-  padding: 1.2rem;
-  background: linear-gradient(to bottom, transparent, var(--light-accent) 150%);
-  transition: background var(--transition-normal);
-}
-
-.product-card:hover .product-info {
-  background: linear-gradient(to bottom, transparent, var(--accent-color) 150%);
+  padding: 1rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background: transparent; /* Eliminado el gradiente que podría ocultar contenido */
 }
 
 .product-title {
-  font-size: 1.1rem;
+  font-size: 1rem;
   margin: 0 0 0.5rem 0;
   color: var(--text-dark);
   font-weight: 600;
-  transition: color var(--transition-fast);
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 2.6em; /* Altura mínima para dos líneas */
 }
 
-.product-card:hover .product-title {
-  color: var(--primary-color);
+.product-price {
+  color: var(--secondary-color);
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+}
+
+.product-rating {
+  display: flex;
+  align-items: center;
+  margin: 0.5rem 0;
+  color: var(--neutral-color);
+}
+
+.product-rating span {
+  margin-left: 0.3rem;
+  font-weight: 600;
 }
 
 .add-to-cart-btn {
@@ -64,6 +84,7 @@
   transition: all var(--transition-fast);
   position: relative;
   overflow: hidden;
+  margin-top: auto; /* Empuja el botón hacia abajo */
 }
 
 .add-to-cart-btn::before {
@@ -88,4 +109,14 @@
 
 .add-to-cart-btn:active {
   transform: translateY(0);
+}
+
+/* Estrella de calificación */
+.star {
+  color: #FFD700; /* Color dorado para estrellas */
+  margin-right: 2px;
+}
+
+.star.empty {
+  color: var(--neutral-color); /* Color para estrellas vacías */
 }
