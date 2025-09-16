@@ -6,6 +6,43 @@
   box-sizing: border-box;
 }
 
+/* Agrega esto en tu Header.css o App.css */
+.header {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: var(--text-light);
+  padding: 1rem 2rem;
+  box-shadow: var(--shadow-md);
+}
+
+.nav-link {
+  color: var(--text-light);
+  transition: all var(--transition-fast);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--light-accent);
+  transition: all var(--transition-normal);
+  transform: translateX(-50%);
+}
+
+.nav-link:hover::after {
+  width: 80%;
+}
+
+.nav-link:hover {
+  color: var(--light-accent);
+  transform: translateY(-2px);
+}
+
 body {
   font-family: 'Arial', sans-serif;
   background-color: var(--background-light);

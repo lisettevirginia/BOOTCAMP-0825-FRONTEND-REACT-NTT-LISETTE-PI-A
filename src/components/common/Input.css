@@ -1,9 +1,23 @@
-.input-field:focus {
-  border-color: var(--secondary-color);
-  box-shadow: 0 0 0 3px rgba(246, 70, 74, 0.1);
+/* Input.css */
+@import url('../../styles/variables.css');
+
+.input-field {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--neutral-color);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all var(--transition-normal);
+  background-color: var(--background-light);
 }
 
-.input-error {
-  border-color: var(--error-color) !important;
-  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1) !important;
+.input-field:focus {
+  outline: none;
+  border-color: var(--secondary-color);
+  box-shadow: 0 0 0 3px rgba(246, 70, 74, 0.1);
+  transform: translateY(-1px);
+}
+
+.input-field:hover {
+  border-color: var(--accent-color);
 }

@@ -1,5 +1,4 @@
-/* Modal.css */
-@import url('../styles/variables.css');
+@import url('../../styles/variables.css');
 
 .modal-content {
   background: var(--background-light);

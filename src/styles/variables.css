@@ -1,18 +1,37 @@
 :root {
-  /* Paleta principal */
-  --primary-color: #911440;       /* Bordó oscuro (principal) */
-  --secondary-color: #F6464A;     /* Rojo coral (secundario) */
-  --accent-color: #F68B7B;        /* Salmón (acentos) */
-  --light-accent: #FFB48F;        /* Melón claro (fondos suaves) */
-  --neutral-color: #C0B19E;       /* Beige neutro (textos/backgrounds) */
-  
-  /* Colores adicionales */
+  /* Colores principales (ya los tienes) */
+  --primary-color: #911440;
+  --secondary-color: #F6464A;
+  --accent-color: #F68B7B;
+  --light-accent: #FFB48F;
+  --neutral-color: #C0B19E;
   --text-dark: #333333;
   --text-light: #FFFFFF;
   --background-light: #FFFFFF;
   --gray-light: #F5F5F5;
   --success-color: #28a745;
   --error-color: #dc3545;
-  --warning-color: #ffc107;
-  --info-color: #17a2b8;
+
+  /* Efectos y transiciones */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+  --shadow-md: 0 4px 8px rgba(0,0,0,0.15);
+  --shadow-lg: 0 8px 16px rgba(0,0,0,0.2);
+  --shadow-hover: 0 6px 12px rgba(145, 20, 64, 0.25);
+
+   /* Tipografías */
+  --font-primary: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --font-heading: 'Arial Rounded MT Bold', 'Helvetica Rounded', Arial, sans-serif;
+  
+  /* Tamaños de fuente */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
 }
