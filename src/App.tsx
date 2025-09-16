@@ -6,8 +6,8 @@ import Login from './pages/Login/Login';
 import Home from './pages/Home/Home'; 
 import Cart from './pages/Cart/Cart';
 import withAuth from './hocs/withAuth';
-import './App.css';
-
+import './styles/variables.css';
+import './App.css';        
 const ProtectedHome = withAuth(Home);
 const ProtectedCart = withAuth(Cart);
 
