@@ -1,81 +1,216 @@
-# React + TypeScript + Vite
+# My Market - E-commerce Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![My Market](https://img.shields.io/badge/React-18.2.0-blue)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-3178C6)
+![Vite](https://img.shields.io/badge/Vite-4.4+-646CFF)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-Currently, two official plugins are available:
+Una aplicación de e-commerce moderna construida con React + TypeScript que permite a los usuarios explorar productos, agregarlos al carrito y realizar compras seguras.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Características Principales
 
-## Expanding the ESLint configuration
+- **🔐 Autenticación Segura**: Login con validación de credenciales usando DummyJSON API
+- **🛍️ Catálogo de Productos**: Paginación, búsqueda y filtrado por categorías
+- **🛒 Carrito Inteligente**: Gestión de cantidades, validación de stock y total automático
+- **📱 Diseño Responsive**: Optimizado para desktop, tablet y móvil
+- **🎨 Interfaz Moderna**: Paleta de colores corporativa y efectos de hover
+- **📦 Formulario de Envío**: Validación completa de datos de entrega
+- **✅ Alertas Personalizadas**: Sistema de notificaciones para el usuario
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🛠️ Tecnologías Utilizadas
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **Frontend**: React 18 + TypeScript
+- **Build Tool**: Vite
+- **Routing**: React Router DOM
+- **Estado Global**: Context API + useReducer
+- **Estilos**: CSS puro con Flexbox/Grid
+- **API**: DummyJSON REST API
+- **Validación**: React Hook Form
+- **Testing**: Vitest + Testing Library
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-### 📁 Arquitectura de Carpetas
+## 📦 Estructura del Proyecto
 src/
 ├── components/ # Componentes reutilizables
-│ └── common/ # Button, Input, etc.
-├── pages/ # Páginas (Login, Home, Cart)
-├── types/ # Interfaces TypeScript
-├── utils/ # Funciones helpers
-├── tests/ # Tests unitarios
-├── context/ # Estado global (Context API)
-├── services/ # Llamadas a APIs
-└── hooks/ # Custom hooks
+│ ├── Alert/
+│ ├── CartIcon/
+│ ├── CategoryFilter/
+│ ├── Pagination/
+│ ├── ProductCard/
+│ └── SearchBar/
+├── context/ # Estado global (CartContext)
+├── hooks/ # Custom hooks
+│ ├── usePagination/
+│ └── useDistritos/
+├── pages/ # Vistas principales
+│ ├── Cart/
+│ ├── Home/
+│ ├── Login/
+│ └── Summary/
+├── services/ # Servicios API
+├── styles/ # Variables CSS globales
+└── types/ # Definiciones TypeScript
+
+text
+
+## 🚀 Instalación y Ejecución
+
+### Prerrequisitos
+- Node.js 16+ 
+- npm o yarn
+
+### Pasos para ejecutar localmente
+
+1. **Clonar el repositorio**
+```bash
+git clone https://github.com/tuusuario/BOOTCAMP-0825-FRONTEND-REACT-NTT-[TU-NOMBRE].git
+cd BOOTCAMP-0825-FRONTEND-REACT-NTT-[TU-NOMBRE]
+Instalar dependencias
+
+bash
+npm install
+Ejecutar en modo desarrollo
+
+bash
+npm run dev
+Abrir en el navegador
+
+text
+http://localhost:5173
+Scripts Disponibles
+bash
+npm run dev          # Modo desarrollo
+npm run build        # Build para producción
+npm run preview      # Preview del build
+npm run test         # Ejecutar tests
+npm run test:coverage # Tests con coverage
+🎨 Paleta de Colores
+La aplicación utiliza una paleta de colores corporativa:
+
+Primary: #911440 (Bordó oscuro)
+
+Secondary: #F6464A (Rojo coral)
+
+Accent: #F68B7B (Salmón)
+
+Light Accent: #FFB48F (Melón claro)
+
+Neutral: #C0B19E (Beige)
+
+📱 Funcionalidades Implementadas
+✅ Pantalla de Login
+Validación de credenciales con API DummyJSON
+
+Campos validados (no espacios en blanco)
+
+Modal para "Olvidé contraseña"
+
+Manejo de errores y estados de carga
+
+✅ Pantalla Home
+Listado de productos con paginación (custom hook)
+
+Búsqueda en tiempo real (mínimo 3 caracteres)
+
+Filtrado por categorías
+
+Agregar al carrito con validación de stock
+
+Diseño responsive con grid de productos
+
+✅ Pantalla Carrito/Resumen
+Gestión completa de items (agregar/remover/actualizar)
+
+Cálculo automático del total
+
+Formulario de envío con validaciones
+
+Confirmación de compra con alerta personalizada
+
+Limpieza automática después de compra
+
+✅ Componentes Adicionales
+CartIcon: Contador interactivo con animaciones
+
+Alert: Sistema de modales personalizables
+
+Pagination: Navegación entre páginas
+
+CategoryFilter: Selector de categorías
+
+🔧 Arquitectura Técnica
+Estado Global
+Context API con useReducer para el carrito
+
+Patrón reducer para acciones complejas
+
+Persistencia durante la sesión
+
+Custom Hooks
+usePagination: Lógica de paginación reutilizable
+
+useDistritos: Carga de datos locales para formulario
+
+Patrones Implementados
+HOC: withAuth para protección de rutas
+
+Mappers: Transformación snake_case to camelCase
+
+Container/Presentational: Separación de lógica y vista
+
+🧪 Testing
+El proyecto incluye tests unitarios para:
+
+✅ Componentes individuales
+
+✅ Custom hooks
+
+✅ Utilidades
+
+✅ Páginas completas
+
+Para ejecutar los tests:
+
+bash
+npm run test
+npm run test:coverage  # Coverage > 90%
+📋 Convenciones de Código
+Commits
+feat: Nuevas funcionalidades
+
+fix: Corrección de bugs
+
+chore: Tareas de mantenimiento
+
+docs: Documentación
+
+Estructura de Componentes
+typescript
+// Ejemplo de estructura component
+interface ComponentProps {
+  prop: Type;
+}
+
+const Component: React.FC<ComponentProps> = ({ prop }) => {
+  // Lógica aquí
+  return (
+    // JSX aquí
+  );
+};
+🌐 API Endpoints Utilizados
+Login: https://dummyjson.com/auth/login
+
+Productos: https://dummyjson.com/products
+
+Categorías: https://dummyjson.com/products/categories
+
+📞 Soporte
+Para soporte técnico o preguntas sobre el proyecto, contactar a:
+
+Email: bootcampntt2024@gmail.com
+
+Repositorio: GitHub Issues
+
+📄 Licencia
+Este proyecto está bajo la Licencia MIT. Ver el archivo LICENSE para más detalles.
+
+Desarrollado por Lisette V. Piña Martínez para el Bootcamp Web React de NTT Data - 2025
