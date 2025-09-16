@@ -124,7 +124,6 @@ const Login: React.FC = () => {
       return;
     }
     
-    // Simular envío de correo (la API de DummyJSON no tiene endpoint para recuperación)
     setRecoverySent(true);
   };
 
@@ -182,13 +181,7 @@ const Login: React.FC = () => {
         >
           ¿Olvidaste tu contraseña?
         </button>
-        
-        {/* Información para testing */}
-        <div className="dev-info">
-          <p><strong>Credenciales de prueba:</strong></p>
-          <p>Usuario: <code>kminchelle</code> | Contraseña: <code>0lelplR</code></p>
-          <p>Usuario: <code>emilys</code> | Contraseña: <code>emilyspass</code></p>
-        </div>
+                
       </div>
 
       {/* Modal de error */}
