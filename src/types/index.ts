@@ -1,40 +1,36 @@
 export interface Product {
-    id: number;
-    tittle: string;
-    price: number;
-    description: string;
-    category: string;
-    image: string;
-    rating: {
-        rate: number;
-        count: number;
-    };
-    stock: number;
-}
-
-//Tipos para autenticación
-export interface User {
   id: number;
-  username: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  gender: string;
-  image: string;
-  token: string;
+  title: string;
+  price: number;
+  thumbnail: string;
+  stock: number;
 }
 
-export interface LoginFormData{
-    username: string;
-    password: string;
-}
-
-export interface CartItem{
-    product: Product;
-    quantity: number;
+export interface CartItem extends Product {
+  quantity: number;
 }
 
 export interface CartState {
-    items: CartItem[];
-    total: number;
+  items: CartItem[];
+  total: number;
+}
+
+export type CartAction =
+  | { type: 'ADD_ITEM'; payload: Product }
+  | { type: 'REMOVE_ITEM'; payload: number }
+  | { type: 'INCREMENT_ITEM'; payload: number }
+  | { type: 'DECREMENT_ITEM'; payload: number }
+  | { type: 'UPDATE_QUANTITY'; payload: { productId: number; quantity: number } }
+  | { type: 'CLEAR_CART' };
+
+export interface CartContextType {
+  state: CartState;
+  dispatch: React.Dispatch<CartAction>;
+  addItem: (product: Product) => void;
+  removeItem: (productId: number) => void;
+  updateQuantity: (productId: number, quantity: number) => void;
+  incrementItem: (productId: number) => void;
+  decrementItem: (productId: number) => void;
+  clearCart: () => void;
+  getCartItemsCount: () => number;
 }

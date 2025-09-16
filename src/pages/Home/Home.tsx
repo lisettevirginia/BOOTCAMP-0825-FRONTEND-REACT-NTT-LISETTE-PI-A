@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import withAuth from '../../hocs/withAuth';
 import { apiService } from '../../services/api';
 import type { Product, Category } from '../../services/api';
-import { useCart } from '../../context/useCart';
+import { useCart } from '../../context';
+import CartIcon from '../../components/cart/CartIcon';
 import usePagination from '../../hocs/usePagination';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import CategoryFilter from '../../components/CategoryFilter/CategoryFilter';
 import Pagination from '../../components/Pagination/Pagination';
-import './Home';
+import './Home.css';
 
 const HomePage: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -17,8 +18,9 @@ const HomePage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
-  const [showStockModal, setShowStockModal] = useState<boolean>(false);
-  const [stockMessage, setStockMessage] = useState<string>('');
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [modalMessage, setModalMessage] = useState<string>('');
+  const [modalType, setModalType] = useState<'success' | 'error'>('success');
 
   const { addItem } = useCart();
 
@@ -72,13 +74,19 @@ const HomePage: React.FC = () => {
   };
 
   const handleAddToCart = (product: Product) => {
-    if (product.stock > 0) {
-      addItem(product);
-    } else {
-      setStockMessage(`No hay stock disponible para ${product.title}`);
-      setShowStockModal(true);
-    }
-  };
+  if (product.stock > 0) {
+    addItem(product);
+    // ✅ Mensaje de éxito
+    setModalMessage(`¡${product.title} agregado al carrito!`);
+    setModalType('success');
+    setShowModal(true);
+  } else {
+    // ✅ Mensaje de error de stock
+    setModalMessage(`No hay stock disponible para ${product.title}`);
+    setModalType('error');
+    setShowModal(true);
+  }
+};
 
   if (isLoading) {
     return <div className="loading">Cargando productos...</div>;
@@ -89,31 +97,31 @@ const HomePage: React.FC = () => {
   }
 
   return (
-    <div className="home-container">
+    <>
       <header className="home-header">
-        <h1>My Market</h1>
-        <p>Encuentra los mejores productos al mejor precio</p>
+        <div className="header-title">
+          <h1>My Market</h1>
+          <p>Encuentra los mejores productos al mejor precio</p>
+        </div>
+        <div className="header-actions">
+          <CartIcon />
+        </div>
       </header>
-
       <div className="filters-container">
-        <SearchBar 
-          onSearch={handleSearch} 
-          minLength={3}
-        />
+        <SearchBar
+          onSearch={handleSearch}
+          minLength={3} />
         <CategoryFilter
           categories={categories}
           selectedCategory={selectedCategory}
-          onCategoryChange={handleCategoryChange}
-        />
+          onCategoryChange={handleCategoryChange} />
       </div>
-
       <div className="products-grid">
         {currentData.map(product => (
           <ProductCard
             key={product.id}
             product={product}
-            onAddToCart={handleAddToCart}
-          />
+            onAddToCart={handleAddToCart} />
         ))}
       </div>
 
@@ -133,16 +141,16 @@ const HomePage: React.FC = () => {
         />
       )}
 
-      {showStockModal && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h3>Stock no disponible</h3>
-            <p>{stockMessage}</p>
-            <button onClick={() => setShowStockModal(false)}>Cerrar</button>
-          </div>
+      {showModal && (
+      <div className="modal-overlay">
+        <div className={`modal ${modalType}`}>
+        <h3>{modalType === 'success' ? '¡Éxito!' : 'Stock no disponible'}</h3>
+        <p>{modalMessage}</p>
+        <button onClick={() => setShowModal(false)}>Cerrar</button>
         </div>
-      )}
-    </div>
+      </div>
+    )}
+    </>
   );
 };
 

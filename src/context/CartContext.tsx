@@ -1,40 +1,7 @@
-import React, { createContext, useReducer } from 'react';
-import type { ReactNode } from 'react';
+import React, { createContext, useReducer, ReactNode } from 'react';
+import type { Product, CartState, CartAction, CartContextType } from '../types';
 
-// Interface temporal por si services/api no existe
-interface Product {
-  id: number;
-  title: string;
-  price: number;
-  stock: number;
-  thumbnail: string;
-}
-
-interface CartItem extends Product {
-  quantity: number;
-}
-
-interface CartState {
-  items: CartItem[];
-  totalItems: number;
-}
-
-type CartAction =
-  | { type: 'ADD_ITEM'; payload: Product }
-  | { type: 'REMOVE_ITEM'; payload: number }
-  | { type: 'UPDATE_QUANTITY'; payload: { id: number; quantity: number } }
-  | { type: 'CLEAR_CART' };
-
-interface CartContextType {
-  state: CartState;
-  addItem: (product: Product) => void;
-  removeItem: (productId: number) => void;
-  updateQuantity: (productId: number, quantity: number) => void;
-  clearCart: () => void;  // ← Aquí cerramos con } y ;
-}
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const CartContext = createContext<CartContextType | undefined>(undefined);
+const CartContext = createContext<CartContextType | undefined>(undefined);
 
 const cartReducer = (state: CartState, action: CartAction): CartState => {
   switch (action.type) {
@@ -48,50 +15,78 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
             : item
         );
         return {
+          ...state,
           items: updatedItems,
-          totalItems: state.totalItems + 1
+          total: updatedItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
         };
       }
-
+      
+      const newItems = [...state.items, { ...action.payload, quantity: 1 }];
       return {
-        items: [...state.items, { ...action.payload, quantity: 1 }],
-        totalItems: state.totalItems + 1
+        ...state,
+        items: newItems,
+        total: newItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
       };
     }
 
     case 'REMOVE_ITEM': {
-      const itemToRemove = state.items.find(item => item.id === action.payload);
-      if (!itemToRemove) return state;
-
+      const filteredItems = state.items.filter(item => item.id !== action.payload);
       return {
-        items: state.items.filter(item => item.id !== action.payload),
-        totalItems: state.totalItems - itemToRemove.quantity
+        ...state,
+        items: filteredItems,
+        total: filteredItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
+      };
+    }
+
+    case 'INCREMENT_ITEM': {
+      const updatedItems = state.items.map(item =>
+        item.id === action.payload
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      );
+      return {
+        ...state,
+        items: updatedItems,
+        total: updatedItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
+      };
+    }
+
+    case 'DECREMENT_ITEM': {
+      const updatedItems = state.items
+        .map(item =>
+          item.id === action.payload
+            ? { ...item, quantity: Math.max(0, item.quantity - 1) }
+            : item
+        )
+        .filter(item => item.quantity > 0);
+      
+      return {
+        ...state,
+        items: updatedItems,
+        total: updatedItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
       };
     }
 
     case 'UPDATE_QUANTITY': {
-      const { id, quantity } = action.payload;
-      if (quantity < 1) {
-        return state;
-      }
-
-      const itemToUpdate = state.items.find(item => item.id === id);
-      if (!itemToUpdate) return state;
-
-      const quantityDifference = quantity - itemToUpdate.quantity;
+      const updatedItems = state.items
+        .map(item =>
+          item.id === action.payload.productId
+            ? { ...item, quantity: action.payload.quantity }
+            : item
+        )
+        .filter(item => item.quantity > 0);
       
       return {
-        items: state.items.map(item =>
-          item.id === id ? { ...item, quantity } : item
-        ),
-        totalItems: state.totalItems + quantityDifference
+        ...state,
+        items: updatedItems,
+        total: updatedItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
       };
     }
 
     case 'CLEAR_CART':
       return {
         items: [],
-        totalItems: 0
+        total: 0
       };
 
     default:
@@ -99,39 +94,71 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
   }
 };
 
-export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [state, dispatch] = useReducer(cartReducer, {
-    items: [],
-    totalItems: 0
+const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const [state, dispatch] = useReducer(cartReducer, { 
+    items: [], 
+    total: 0 
   });
 
   const addItem = (product: Product) => {
-    dispatch({ type: 'ADD_ITEM', payload: product });
+    if (product.stock > 0) {
+      dispatch({ type: 'ADD_ITEM', payload: product });
+    }
   };
 
   const removeItem = (productId: number) => {
     dispatch({ type: 'REMOVE_ITEM', payload: productId });
   };
 
-  const updateQuantity = (productId: number, quantity: number) => {
-    dispatch({ type: 'UPDATE_QUANTITY', payload: { id: productId, quantity } });
+  const incrementItem = (productId: number) => {
+    dispatch({ type: 'INCREMENT_ITEM', payload: productId });
+  };
+
+  const decrementItem = (productId: number) => {
+    dispatch({ type: 'DECREMENT_ITEM', payload: productId });
+  };
+
+  const updateQuantity = (productId: number, newQuantity: number) => {
+    if (newQuantity <= 0) {
+      removeItem(productId);
+    } else {
+      const product = state.items.find(item => item.id === productId);
+      if (product && newQuantity > product.stock) {
+        console.warn(`No hay suficiente stock. Máximo: ${product.stock}`);
+        return;
+      }
+      
+      dispatch({ 
+        type: 'UPDATE_QUANTITY', 
+        payload: { productId, quantity: Math.min(newQuantity, product?.stock || newQuantity) } 
+      });
+    }
   };
 
   const clearCart = () => {
     dispatch({ type: 'CLEAR_CART' });
   };
 
+  const getCartItemsCount = () => {
+    return state.items.reduce((total, item) => total + item.quantity, 0);
+  };
+
   return (
-    <CartContext.Provider
-      value={{
-        state,
-        addItem,
-        removeItem,
-        updateQuantity,
-        clearCart
-      }}
-    >
+    <CartContext.Provider value={{
+      state,
+      dispatch,
+      addItem,
+      removeItem,
+      incrementItem,
+      decrementItem,
+      updateQuantity,
+      clearCart,
+      getCartItemsCount
+    }}>
       {children}
     </CartContext.Provider>
   );
 };
+
+export { CartContext };
+export default CartProvider;

@@ -27,7 +27,7 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({
             className={selectedCategory === category.slug ? 'active' : ''}
             onClick={() => onCategoryChange(category.slug)} // Pasa el slug
           >
-            {category.name} // Muestra el name
+            {category.name}
           </button>
         ))}
       </div>

@@ -1,10 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
-import { CartProvider } from './context/CartContext';
+import CartProvider from './context/CartContext';
 import Login from './pages/Login/Login';
 import Home from './pages/Home/Home'; 
-import Cart from './pages/Cart/Cart'; // ← Importar el Cart real
+import Cart from './pages/Cart/Cart';
 import withAuth from './hocs/withAuth';
 import './App.css';
 
@@ -14,7 +14,7 @@ const ProtectedCart = withAuth(Cart);
 const App: React.FC = () => {
   return (
     <AuthProvider>
-      <CartProvider> {/* ← Agregar CartProvider */}
+      <CartProvider>
         <Router>
           <div className="App">
             <Routes>
