@@ -5,7 +5,7 @@ import CartProvider from './context/CartContext';
 import Login from './pages/Login/Login';
 import Home from './pages/Home/Home'; 
 import Cart from './pages/Cart/Cart';
-import withAuth from './hocs/withAuth';
+import withAuth from './components/withAuth/withAuth';
 import './styles/variables.css';
 import './App.css';        
 const ProtectedHome = withAuth(Home);
