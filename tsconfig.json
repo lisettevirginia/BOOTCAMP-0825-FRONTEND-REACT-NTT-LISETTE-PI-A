@@ -21,7 +21,11 @@
     "noFallthroughCasesInSwitch": true,
     "verbatimModuleSyntax": false,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+
+    /* Vitest support */
+    "types": ["vitest/globals", "vite/client"],
+    "exactOptionalPropertyTypes": false
   },
-  "include": ["src"]
+  "include": ["src", "src/**/*.test.ts", "src/**/*.test.tsx"]
 }
