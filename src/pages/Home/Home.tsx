@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import withAuth from '../../hocs/withAuth';
+import withAuth from '../../components/withAuth/withAuth';
 import { apiService } from '../../services/api';
 import type { Product, Category } from '../../services/api';
 import { useCart } from '../../context';
 import CartIcon from '../../components/cart/CartIcon';
-import usePagination from '../../hocs/usePagination';
+import usePagination from '../../hooks/usePagination';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import CategoryFilter from '../../components/CategoryFilter/CategoryFilter';
