@@ -1,54 +1,155 @@
-.home-container {
-  min-height: 100vh;
-  padding: 0;
+@import url('../../styles/variables.css');
+
+/* ✅ RESETEO GLOBAL PARA ELIMINAR ESPACIOS EN BLANCO */
+* {
+  box-sizing: border-box;
   margin: 0;
+  padding: 0;
 }
 
-/* ✅ ESTILOS PARA EL HEADER CON CARTICON */
+body, html {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Evita scroll horizontal */
+  width: 100%;
+  max-width: 100vw;
+}
+
+/* ✅ CONTENEDOR ROOT PARA CONTROLAR EL ANCHO */
+#root, .App {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+.home-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--light-accent) 0%, var(--background-light) 50%, var(--gray-light) 100%);
+  padding: 0;
+  margin: 0;
+  width: 100vw;
+  max-width: 100vw;
+  overflow-x: hidden;
+  position: relative;
+}
+
 .home-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
-  background-color: #f8f9fa;
-  border-bottom: 1px solid #dee2e6;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 1.5rem 2rem;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: var(--text-light);
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100vw;
+}
+
+.home-header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, transparent 20%, rgba(255,255,255,0.1) 20%, rgba(255,255,255,0.1) 80%, transparent 80%, transparent);
+  background-size: 10px 10px;
+  animation: float 20s infinite linear;
+}
+
+@keyframes float {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.header-title {
+  text-align: center;
+  flex: 1;
+  position: relative;
+  z-index: 2;
 }
 
 .header-title h1 {
   margin: 0;
-  color: #333;
-  font-size: 2rem;
+  font-size: 2.5rem;
+  font-weight: 800;
+  font-family: 'Arial Rounded MT Bold', 'Helvetica Rounded', Arial, sans-serif;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  letter-spacing: 1px;
 }
 
 .header-title p {
-  margin: 5px 0 0 0;
-  color: #666;
-  font-size: 1rem;
+  margin: 0.5rem 0 0 0;
+  font-size: 1.1rem;
+  opacity: 0.9;
+  font-weight: 300;
 }
 
 .header-actions {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+  position: relative;
+  z-index: 2;
 }
 
+/* ✅ FILTROS CON MEJOR ESPACIADO */
 .filters-container {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.5rem;
   padding: 2rem;
-  background-color: #fff;
-  margin: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  background-color: var(--background-light);
+  margin: 0;
+  border-radius: 0 0 16px 16px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--neutral-color);
+  border-top: none;
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
 }
 
+/* Para pantallas grandes: search y categorías en línea */
+@media (min-width: 768px) {
+  .filters-container {
+    flex-direction: row;
+    align-items: end;
+    justify-content: space-between;
+    gap: 2rem; /* ✅ Más espacio entre elementos */
+  }
+  
+  .filters-container > * {
+    flex: 1;
+    max-width: calc(50% - 1rem); /* ✅ Limita el ancho máximo */
+  }
+}
+
+/* Para móviles: stack vertical */
+@media (max-width: 767px) {
+  .filters-container {
+    flex-direction: column;
+    gap: 1.5rem; /* ✅ Más espacio en móvil */
+  }
+}
+
+/* ✅ CONTENEDOR PRINCIPAL CON MEJOR ESPACIADO */
+.content-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+  width: 100%;
+  max-width: calc(100vw - 4rem); /* ✅ Resta el padding total */
+  box-sizing: border-box;
+}
+
+/* ✅ GRID DE PRODUCTOS CON MEJOR ESPACIADO */
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 2rem;
-  padding: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* ✅ Cards más anchas */
+  gap: 2.5rem; /* ✅ Más espacio entre cards */
+  margin-bottom: 3rem;
+  width: 100%;
+  padding: 1rem 0; /* ✅ Padding vertical adicional */
 }
 
 .loading, .error, .no-products {
@@ -57,96 +158,174 @@
   align-items: center;
   height: 50vh;
   font-size: 1.2rem;
+  text-align: center;
+  width: 100%;
 }
 
 .loading {
-  color: #007bff;
+  color: var(--secondary-color);
 }
 
 .error {
-  color: #dc3545;
+  color: var(--error-color);
 }
 
 .no-products {
-  color: #6c757d;
+  color: var(--neutral-color);
+  font-size: 1.3rem;
+  font-weight: 500;
 }
 
+/* ✅ MODALES */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  backdrop-filter: blur(5px);
 }
 
 .modal {
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
+  background: var(--background-light);
+  padding: 2.5rem;
+  border-radius: 16px;
   text-align: center;
-  min-width: 300px;
+  min-width: 350px;
+  max-width: 90vw; /* ✅ Evita que el modal sea más ancho que la pantalla */
+  box-shadow: var(--shadow-lg);
+  border: 2px solid transparent;
+  animation: modalAppear 0.3s ease-out;
+}
+
+@keyframes modalAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.modal.success {
+  border-left: 4px solid var(--success-color);
+}
+
+.modal.error {
+  border-left: 4px solid var(--error-color);
 }
 
 .modal h3 {
   margin-top: 0;
-  color: #333;
+  color: var(--text-dark);
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+}
+
+.modal p {
+  margin: 1rem 0;
+  color: var(--text-dark);
+  line-height: 1.5;
 }
 
 .modal button {
-  background-color: #007bff;
-  color: white;
+  background: var(--secondary-color);
+  color: var(--text-light);
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
   cursor: pointer;
-  margin-top: 1rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  transition: all var(--transition-fast);
 }
 
 .modal button:hover {
-  background-color: #0056b3;
+  background: var(--primary-color);
+  transform: translateY(-2px);
 }
 
-.modal.success {
-  border-left: 4px solid #28a745;
-}
-
-.modal.error {
-  border-left: 4px solid #dc3545;
-}
-
-.modal.success h3 {
-  color: #28a745;
-}
-
-.modal.error h3 {
-  color: #dc3545;
-}
-
-/* ✅ Responsive */
+/* ✅ RESPONSIVE MEJORADO */
 @media (max-width: 768px) {
   .home-header {
     flex-direction: column;
     text-align: center;
-    padding: 1rem;
+    gap: 1rem;
+    padding: 1.5rem 1rem; /* ✅ Mejor padding en móvil */
   }
   
-  .header-title {
-    margin-bottom: 1rem;
+  .header-title h1 {
+    font-size: 2rem;
+  }
+  
+  .header-title p {
+    font-size: 1rem;
   }
   
   .filters-container {
-    margin: 0.5rem;
+    margin: 0;
+    padding: 1.5rem;
+    border-radius: 0;
+  }
+  
+  .content-wrapper {
+    padding: 1.5rem; /* ✅ Padding consistente en móvil */
+  }
+  
+  .products-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* ✅ Cards más flexibles en móvil */
+    gap: 2rem; /* ✅ Buen espacio en móvil */
+    padding: 0.5rem 0;
+  }
+  
+  .modal {
+    min-width: 280px;
+    max-width: 95vw; /* ✅ Más espacio en móviles pequeños */
+    padding: 2rem;
+    margin: 1rem;
+  }
+}
+
+/* ✅ PARA PANTALLAS MUY PEQUEÑAS */
+@media (max-width: 480px) {
+  .content-wrapper {
     padding: 1rem;
   }
   
   .products-grid {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1rem;
+    grid-template-columns: 1fr; /* ✅ Una sola columna en pantallas muy pequeñas */
+    gap: 1.5rem;
+  }
+  
+  .filters-container {
     padding: 1rem;
   }
+}
+
+/* ✅ SOLUCIÓN ESPECÍFICA PARA ESPACIOS EN BLANCO */
+.home-container * {
+  max-width: 100%;
+}
+
+/* ✅ PREVENIR DESBORDAMIENTO HORIZONTAL */
+body {
+  position: relative;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 1px;
+  height: 100vh;
+  background: transparent;
+  z-index: -1;
 }

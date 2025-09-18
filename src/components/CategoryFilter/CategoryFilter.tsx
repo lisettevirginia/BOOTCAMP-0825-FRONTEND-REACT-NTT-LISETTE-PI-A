@@ -15,22 +15,25 @@ interface CategoryFilterProps {
 const CategoryFilter: React.FC<CategoryFilterProps> = ({
   categories,
   selectedCategory,
-  onCategoryChange
+  onCategoryChange,
 }) => {
   return (
     <div className="category-filter">
-      <h3>Categorías</h3>
-      <div className="category-buttons">
+      <label htmlFor="category-select" className="category-label">
+        Categorías
+      </label>
+      <select
+        id="category-select"
+        value={selectedCategory}
+        onChange={(e) => onCategoryChange(e.target.value)}
+        className="category-select"
+      >
         {categories.map((category) => (
-          <button
-            key={category.slug} // Usa category.slug como key
-            className={selectedCategory === category.slug ? 'active' : ''}
-            onClick={() => onCategoryChange(category.slug)} // Pasa el slug
-          >
+          <option key={category.slug} value={category.slug}>
             {category.name}
-          </button>
+          </option>
         ))}
-      </div>
+      </select>
     </div>
   );
 };

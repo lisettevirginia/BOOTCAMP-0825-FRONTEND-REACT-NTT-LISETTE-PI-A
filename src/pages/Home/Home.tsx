@@ -96,8 +96,8 @@ const HomePage: React.FC = () => {
     return <div className="error">{error}</div>;
   }
 
-  return (
-    <>
+ return (
+    <div className="home-container"> {/* ✅ CONTENEDOR PRINCIPAL */}
       <header className="home-header">
         <div className="header-title">
           <h1>My Market</h1>
@@ -107,6 +107,7 @@ const HomePage: React.FC = () => {
           <CartIcon />
         </div>
       </header>
+
       <div className="filters-container">
         <SearchBar
           onSearch={handleSearch}
@@ -116,41 +117,45 @@ const HomePage: React.FC = () => {
           selectedCategory={selectedCategory}
           onCategoryChange={handleCategoryChange} />
       </div>
-      <div className="products-grid">
-        {currentData.map(product => (
-          <ProductCard
-            key={product.id}
-            product={product}
-            onAddToCart={handleAddToCart} />
-        ))}
-      </div>
 
-      {filteredProducts.length === 0 && (
-        <div className="no-products">
-          <p>No se encontraron productos</p>
+      {/* ✅ CONTENEDOR PARA PRODUCTOS Y PAGINACIÓN */}
+      <div className="content-wrapper">
+        <div className="products-grid">
+          {currentData.map(product => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              onAddToCart={handleAddToCart} />
+          ))}
         </div>
-      )}
 
-      {filteredProducts.length > 0 && (
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={goToPage}
-          onNextPage={nextPage}
-          onPrevPage={prevPage}
-        />
-      )}
+        {filteredProducts.length === 0 && !isLoading && (
+          <div className="no-products">
+            <p>No se encontraron productos</p>
+          </div>
+        )}
+
+        {filteredProducts.length > 0 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={goToPage}
+            onNextPage={nextPage}
+            onPrevPage={prevPage}
+          />
+        )}
+      </div>
 
       {showModal && (
-      <div className="modal-overlay">
-        <div className={`modal ${modalType}`}>
-        <h3>{modalType === 'success' ? '¡Éxito!' : 'Stock no disponible'}</h3>
-        <p>{modalMessage}</p>
-        <button onClick={() => setShowModal(false)}>Cerrar</button>
+        <div className="modal-overlay">
+          <div className={`modal ${modalType}`}>
+            <h3>{modalType === 'success' ? '¡Éxito!' : 'Stock no disponible'}</h3>
+            <p>{modalMessage}</p>
+            <button onClick={() => setShowModal(false)}>Cerrar</button>
+          </div>
         </div>
-      </div>
-    )}
-    </>
+      )}
+    </div>
   );
 };
 
