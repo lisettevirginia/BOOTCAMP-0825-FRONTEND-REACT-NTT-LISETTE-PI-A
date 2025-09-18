@@ -2,10 +2,10 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import CartProvider from './context/CartContext';
-import Login from './pages/Login/Login';
+import Login from './pages/Login/login';
 import Home from './pages/Home/Home'; 
 import Cart from './pages/Cart/Cart';
-import withAuth from './hocs/withAuth';
+import withAuth from './components/withAuth/withAuth';
 import './App.css';
 
 const ProtectedHome = withAuth(Home);
