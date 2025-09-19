@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useId } from 'react';
 import './Input.css';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -8,15 +8,19 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ label, error, required, className, ...props }, ref) => {
+    const id = useId();
+
     return (
       <div className="input-container">
-        <label className="input-label">
+        <label htmlFor={id} className="input-label">
           {label}
           {required && <span className="required-asterisk">*</span>}
         </label>
         
         <input
           ref={ref}
+          id={id}
+          required={required}
           className={`input-field ${error ? 'input-error' : ''} ${className || ''}`}
           {...props}
         />
