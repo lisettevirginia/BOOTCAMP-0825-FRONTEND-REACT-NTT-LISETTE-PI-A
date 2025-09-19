@@ -16,14 +16,19 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Verificar si hay sesión al iniciar
-  useEffect(() => {
-    const savedUser = localStorage.getItem('user');
-    if (savedUser) {
+useEffect(() => {
+  const savedUser = localStorage.getItem('user');
+  if (savedUser) {
+    try {
       setUser(JSON.parse(savedUser));
+    } catch (error) {
+      console.error('Error parsing user data from localStorage:', error);
+      // Limpiar el dato inválido
+      localStorage.removeItem('user');
     }
-    setIsLoading(false);
-  }, []);
+  }
+  setIsLoading(false);
+}, []);
 
   const login = async (userData: User) => {
     setUser(userData);
